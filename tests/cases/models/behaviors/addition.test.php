@@ -1,8 +1,8 @@
 <?php
-App::import('Behavior', 'Utilities.Addition');
+App::import('Behavior', 'Addition.Addition');
 class AdditionBehaviorMockModel extends CakeTestModel {
 	var $useTable = false;
-	var $actsAs = array('Utilities.Addition');
+	var $actsAs = array('Addition.Addition');
 }
 
 class AdditionBehaviorTest extends CakeTestCase {
@@ -14,7 +14,7 @@ class AdditionBehaviorTest extends CakeTestCase {
 	}
 
 	function _reset($settings = array()) {
-		$this->Model->Behaviors->attach('Utilities.Addition', $settings);
+		$this->Model->Behaviors->attach('Addition.Addition', $settings);
 		$this->Behavior = $this->Model->Behaviors->Addition;
 	}
 	function testBuild(){
