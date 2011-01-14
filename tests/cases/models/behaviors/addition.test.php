@@ -19,13 +19,13 @@ class AdditionBehaviorTest extends CakeTestCase {
 	}
 	function testBuild(){
 		$result = $this->Behavior->_build(array("field","next_field","third_field"), array(1,2,-1));
-		$expected = "field = field + 1 , next_field = next_field + 2 , third_field = third_field + -1";
+		$expected = array(
+			'field' => "field + 1",
+			'next_field' => "next_field + 2",
+			'third_field' => "third_field - 1",
+		);
 		$this->assertIdentical($result, $expected);
-	}
-	function testBuildQuery(){
-		$result = $this->Behavior->_buildQuery("","","ModelName");
-		$expected = "UPDATE ModelName SET  WHERE id = ";
-		$this->assertIdentical($result, $expected);
+		
 	}
 	function testBeforeSum(){
 		$fields = array("test","test_field","extra_field");

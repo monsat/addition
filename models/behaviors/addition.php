@@ -11,8 +11,8 @@ class AdditionBehavior extends ModelBehavior {
 	function sum(&$model, $id, $values = 1, $fields = array()) {
 		list($fields, $values) = $this->_beforeSum($fields, $values);
 		$_set = $this->_build($fields, $values);
-		$_query = $this->_buildQuery($id, $_set, $model->useTable);
-		return $this->_execute($_query, $model);
+		$conditions = array($model->primaryKey => $id);
+		return $model->updateAll($_set, compact("conditions"));
 	}
 	function _beforeSum($fields, $values) {
 		if (empty($fields)) {
@@ -28,17 +28,13 @@ class AdditionBehavior extends ModelBehavior {
 	}
 	function _build($fields, $values) {
 		$_set = array_combine($fields, $values);
-		$_results = array();
+		$results = array();
 		foreach ($_set as $field => $value) {
-			$_results[] = "{$field} = {$field} + {$value}";
+			$_sign = $value < 0 ? "-" : "+";
+			$_value = abs($value);
+			$results[$field] = "{$field} {$_sign} {$_value}";
 		}
-		return join(" , ", $_results);
-	}
-	function _buildQuery($id, $set, $modelname) {
-		return "UPDATE {$modelname} SET {$set} WHERE id = {$id}";
-	}
-	function _execute($query, &$model) {
-		return !!$model->execute( $query );
+		return $results;
 	}
 }
 
