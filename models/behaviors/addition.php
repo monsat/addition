@@ -9,15 +9,15 @@ class AdditionBehavior extends ModelBehavior {
 		$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], $settings);
 	}
 	function sum(&$model, $id, $values = 1, $fields = array()) {
-		list($fields, $values) = $this->_beforeSum($fields, $values);
-		$_set = $this->_build($fields, $values);
-		$conditions = array($model->primaryKey => $id);
-		return $model->updateAll($_set, compact("conditions"));
-	}
-	function _beforeSum($fields, $values) {
 		if (empty($fields)) {
 			$fields = $this->__settings[$model->alias]['fields'];
 		}
+		list($fields, $values) = $this->_beforeSum($fields, $values);
+		$_set = $this->_build($fields, $values);
+		$conditions = array($model->primaryKey => $id);
+		return $model->updateAll($_set, $conditions);
+	}
+	function _beforeSum($fields, $values) {
 		$values = is_array($values) ? $values : array($values);
 		if (count($fields) > count($values)) {
 			$_value = $values[count($values) - 1];
