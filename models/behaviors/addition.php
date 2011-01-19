@@ -15,6 +15,7 @@ class AdditionBehavior extends ModelBehavior {
 		list($fields, $values) = $this->_beforeSum($fields, $values);
 		$_set = $this->_build($fields, $values);
 		$conditions = array($model->primaryKey => $id);
+		$this->unbindAllModels($model, true);
 		return $model->updateAll($_set, $conditions);
 	}
 	function _beforeSum($fields, $values) {
@@ -35,6 +36,15 @@ class AdditionBehavior extends ModelBehavior {
 			$results[$field] = "{$field} {$_sign} {$_value}";
 		}
 		return $results;
+	}
+	// copy from SearchPlugin
+	function unbindAllModels(Model $model, $reset = false) {
+		$assocs = array('belongsTo', 'hasOne', 'hasMany', 'hasAndBelongsToMany');
+		$unbind = array();
+		foreach ($assocs as $assoc) {
+			$unbind[$assoc] = array_keys($model->{$assoc});
+		}
+		$model->unbindModel($unbind, $reset);
 	}
 }
 
