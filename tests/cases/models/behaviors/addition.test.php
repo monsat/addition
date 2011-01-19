@@ -1,7 +1,6 @@
 <?php
 App::import('Behavior', 'Addition.Addition');
 class AdditionBehaviorMockModel extends CakeTestModel {
-	var $useDbConfig = 'test';
 	var $useTable = "additions";
 	var $actsAs = array('Addition.Addition');
 }
