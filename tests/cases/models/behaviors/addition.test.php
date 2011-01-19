@@ -3,13 +3,19 @@ App::import('Behavior', 'Addition.Addition');
 class AdditionBehaviorMockModel extends CakeTestModel {
 	var $useTable = "additions";
 	var $actsAs = array('Addition.Addition');
+	var $hasOne = "User";
+}
+class AssocMockModel extends CakeTestModel {
+	var $name = "User";
+	var $useTable = "users";
 }
 class AdditionBehaviorTest extends CakeTestCase {
-	var $fixtures = array("plugin.addition.addition");
+	var $fixtures = array("plugin.addition.addition", "plugin.addition.user");
 	var $Model;
 	var $Behavior;
 	function startCase() {
 		$this->Model =& ClassRegistry::init('AdditionBehaviorMockModel');
+		$this->Model->User =& ClassRegistry::init('AssocMockModel');
 		$this->_reset();
 	}
 
