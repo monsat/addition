@@ -22,8 +22,7 @@ class AdditionBehavior extends ModelBehavior {
 		$values = is_array($values) ? $values : array($values);
 		if (count($fields) > count($values)) {
 			$_value = $values[count($values) - 1];
-			$_values = array_fill(count($values), count($fields) - count($values), $_value);
-			$values = array_merge($values, $_values);
+			$values = array_pad($values, count($fields), $_value);
 		}
 		return array($fields, $values);
 	}
