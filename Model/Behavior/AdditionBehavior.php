@@ -1,14 +1,14 @@
 <?php
 class AdditionBehavior extends ModelBehavior {
-	var $_default = array('fields' => array('views'));
-	function setup(&$model, $settings = array()) {
+	public $_default = array('fields' => array('views'));
+	public function setup(&$model, $settings = array()) {
 		if (!isset($this->__settings[$model->alias])) {
 			$this->__settings[$model->alias] = $this->_default;
 		}
 		$settings = is_array($settings) ? $settings : array($settings);
 		$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], $settings);
 	}
-	function sum(&$model, $id, $values = 1, $fields = array()) {
+	public function sum(&$model, $id, $values = 1, $fields = array()) {
 		if (empty($fields)) {
 			$fields = $this->__settings[$model->alias]['fields'];
 		}
@@ -18,7 +18,7 @@ class AdditionBehavior extends ModelBehavior {
 		$this->unbindAllModels($model, true);
 		return $model->updateAll($_set, $conditions);
 	}
-	function _beforeSum($fields, $values) {
+	public function _beforeSum($fields, $values) {
 		$values = is_array($values) ? $values : array($values);
 		if (count($fields) > count($values)) {
 			$_value = $values[count($values) - 1];
@@ -26,7 +26,7 @@ class AdditionBehavior extends ModelBehavior {
 		}
 		return array($fields, $values);
 	}
-	function _build($fields, $values) {
+	public function _build($fields, $values) {
 		$_set = array_combine($fields, $values);
 		$results = array();
 		foreach ($_set as $field => $value) {
@@ -37,7 +37,7 @@ class AdditionBehavior extends ModelBehavior {
 		return $results;
 	}
 	// copy from SearchPlugin
-	function unbindAllModels(Model $model, $reset = false) {
+	public function unbindAllModels(Model $model, $reset = false) {
 		$assocs = array('belongsTo', 'hasOne', 'hasMany', 'hasAndBelongsToMany');
 		$unbind = array();
 		foreach ($assocs as $assoc) {
