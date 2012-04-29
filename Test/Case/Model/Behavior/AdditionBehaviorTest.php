@@ -4,7 +4,6 @@ App::uses('AppModel', 'Model');
 App::uses('AdditionBehavior', 'Addition.Model/Behavior');
 class AdditionBehaviorMockModel extends CakeTestModel {
 	public $useTable = "additions";
-	public $actsAs = array('Addition.Addition');
 	public $hasOne = "User";
 }
 class AssocMockModel extends CakeTestModel {
