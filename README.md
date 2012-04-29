@@ -6,9 +6,15 @@ You can use it to count up DB field's value ( without using counter cache )
 ## Require
 
  - CakePHP2.0 or higher (2.0 branch)
- - MySQL
+ - MySQL (integer field)
 
-## USAGE
+## API
+
+sum(int $id, mixed $values = 1, array $fields = array())
+
+Return type : boolean True on success, false on failure ( result by Model::updateAll() )
+
+### USAGE
 
 ```php
 # bootstrap.php
@@ -29,11 +35,20 @@ class User extends AppModel {
 public function counter($id = null) {
   // +2 (default fields [views])
   $this->User->sum($id, 2);
+  
   // +1 (field [views]) and  +1 (field [another])
   $this->User->sum($id, 1, array('views', 'another'));
+  
   // +1 (field [first]) and  +2 (field [second]) and  +3 (field [third])
   $this->User->sum($id, array(1, 2, 3), array('first', 'second', 'third'));
+  
   // +1 (field [first]) and  +2 (fields [second, third, forth])
   $this->User->sum($id, array(1, 2), array('first', 'second', 'third', 'forth'));
 }
+```
+
+#### decrement
+
+```php
+$this->sum($id, -1);
 ```
